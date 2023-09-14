@@ -17,9 +17,11 @@ if __name__ == "__main__":
     logging.info("ib gateway version:{}".format(ib_gateway_version))
     logging.info("ib gateway path:{}".format(gatewayPath))
     logging.info('-------------------')
+
     account = IBAccount.account()
     password = IBAccount.password()
     trade_mode = IBAccount.trade_mode()
+
     ibc = IBC(ib_gateway_version,
               gateway=True,
               tradingMode=trade_mode,
@@ -34,9 +36,13 @@ if __name__ == "__main__":
 
     def onDisconnected():
         logging.info('IB gateway disconnected')
+
     ib.connectedEvent += onConnected
     ib.disconnectedEvent += onDisconnected
-    watchdog = Watchdog(ibc, ib, port=4002,
+
+    ib_port = '4001' if trade_mode == 'live' else '4002' if trade_mode == 'paper' else ''
+
+    watchdog = Watchdog(ibc, ib, port=ib_port,
                         connectTimeout=int(
                             os.environ['IBGW_WATCHDOG_CONNECT_TIMEOUT']),
                         appStartupTime=int(
