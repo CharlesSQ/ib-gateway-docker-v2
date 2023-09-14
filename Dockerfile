@@ -42,12 +42,16 @@ RUN wget -q -O /tmp/IBC.zip https://github.com/IbcAlpha/IBC/releases/download/$I
 RUN unzip /tmp/IBC.zip -d ${ibcPath}
 RUN chmod +x ${ibcPath}/*.sh ${ibcPath}/*/*.sh
 
+
 # install TWS, write output to file so that we can parse the TWS version number later
 RUN touch $TWS_INSTALL_LOG
 COPY install_ibgw.exp /tmp/install_ibgw.exp
 RUN chmod +x /tmp/install_ibgw.exp
+# verify that the script is correct
 RUN cat /tmp/ibgw.sh
+# install TWS
 RUN /tmp/install_ibgw.exp
+
 
 # remove downloaded files
 RUN rm /tmp/ibgw.sh /tmp/IBC.zip

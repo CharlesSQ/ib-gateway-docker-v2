@@ -8,3 +8,7 @@ requirements-test.txt
 .gitignore
 Dockerfile
 README.md
+ibg
+root
+opt
+temp
